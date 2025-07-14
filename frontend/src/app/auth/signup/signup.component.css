@@ -1,0 +1,148 @@
+form {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+form h1{
+  text-align: center;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 95%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s;
+  font-size: 14px;
+}
+
+form input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+
+
+button[type="submit"] {
+  width: 100%;
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #3a78c2;
+}
+
+p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #d93025;
+}
+
+div {
+  margin-bottom: 20px;
+}
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #444;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+
+.auth-switch a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.auth-switch a:hover {
+  color: #3a78c2;
+  text-decoration: underline;
+}
+.photo-upload-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.photo-label {
+  cursor: pointer;
+}
+
+.photo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #eee;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #555;
+  border: 2px dashed #bbb;
+}
+.photo-circle:hover{
+  background-color: #ece2e2;
+}
+.photo-upload-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.photo-label {
+  cursor: pointer;
+}
+
+.photo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #eee;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #555;
+  border: 2px dashed #bbb;
+  transition: 0.2s ease;
+  text-align: center;
+}
+
+.photo-circle.drag-hover {
+  border-color: #5c9ded;
+  background-color: #e8f0ff;
+}

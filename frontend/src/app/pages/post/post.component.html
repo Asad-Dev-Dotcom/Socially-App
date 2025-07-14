@@ -1,0 +1,74 @@
+<div
+  class="create-post-container"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)"
+>
+  <!-- Cancel Button -->
+  <a class="cancel-btn" (click)="dialogRef.close()">X</a>
+
+  <!-- Header -->
+  <div class="post-header">
+    <img
+      *ngIf="user.photo"
+      [src]="user.photo"
+      class="user-avatar"
+      alt="User Avatar"
+    />
+    <div *ngIf="!user.photo" class="default-avatar">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <span class="user-name">{{ user.name }}</span>
+  </div>
+
+  <!-- Scrollable section -->
+  <div class="scrollable-content">
+    <!-- Upload -->
+    <div class="post-actions">
+      <input type="file" accept="image/*,video/*" multiple (change)="onfileSelected($event)" hidden #photoInput />
+      <button type="button" (click)="photoInput.click()">
+        <i class="fas fa-photo-video"></i> Add Photo/Video
+      </button>
+    </div>
+
+    <!-- Text Area -->
+    <textarea
+      [(ngModel)]="postText"
+      placeholder="What's on your mind?"
+      class="post-textarea"
+      rows="5"
+    ></textarea>
+
+    <!-- Media Preview Carousel -->
+    <div class="media-preview" *ngIf="filePreview.length > 0">
+      <div class="carousel-container">
+        <button class="carousel-arrow left" *ngIf="filePreview.length > 1" (click)="prevPreview()">&#10094;</button>
+
+        <div class="carousel-media">
+          <ng-container *ngIf="isImage(filePreview[currentPreviewIndex])">
+            <img [src]="filePreview[currentPreviewIndex]" alt="Image Preview" />
+          </ng-container>
+          <ng-container *ngIf="isVideo(filePreview[currentPreviewIndex])">
+            <video [src]="filePreview[currentPreviewIndex]" controls></video>
+          </ng-container>
+          <button class="remove-media" (click)="removeFile(currentPreviewIndex)">×</button>
+        </div>
+
+        <button class="carousel-arrow right" *ngIf="filePreview.length > 1" (click)="nextPreview()">&#10095;</button>
+      </div>
+
+      <!-- Dots -->
+      <div class="carousel-dots">
+        <span
+          *ngFor="let _ of filePreview; let i = index"
+          [ngClass]="{ 'active-dot': i === currentPreviewIndex }"
+          (click)="goToPreview(i)"
+        ></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Footer -->
+  <div class="post-footer">
+    <button class="post-button" (click)="submitPost()">Post</button>
+  </div>
+</div>

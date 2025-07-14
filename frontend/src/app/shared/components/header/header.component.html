@@ -1,0 +1,26 @@
+<header class="main-header">
+  <div class="brand">Socially</div>
+
+  <nav class="nav-links">
+    <a routerLink="/feed" routerLinkActive="active">Feed</a>
+    <a routerLink="/friends" routerLinkActive="active">Friends</a>
+    <a routerLink="/business" routerLinkActive="active">Business</a>
+    <a routerLink="/post" class="create-post">+ Create Post</a>
+  </nav>
+
+  <div
+    class="profile-menu"
+    (click)="toggleDropdown($event)"
+  >
+    <div class="profile-pic">
+      <img *ngIf="photo" [src]="user.photo" alt="Profile" />
+      <i *ngIf="!photo" class="fas fa-user-alt default-icon"></i>
+    </div>
+
+    <div class="dropdown" *ngIf="dropdownOpen">
+      <p><i class="fa-solid fa-circle-user"></i> {{ user.name }}</p>
+      <p><i class="fa-solid fa-envelope"></i> {{ user.email }}</p>
+      <button (click)="logout($event)">Logout</button>
+    </div>
+  </div>
+</header>
