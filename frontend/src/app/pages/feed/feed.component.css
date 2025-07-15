@@ -329,3 +329,8 @@
 .action-btn:hover {
   color: #4e54c8;
 }
+
+.saved {
+  color: #1877f2;
+  font-weight: bold;
+}

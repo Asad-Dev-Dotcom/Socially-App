@@ -1,6 +1,7 @@
 const User = require('../models/auth.model')
 const jwt = require('jsonwebtoken')
 const CryptoJS = require('crypto-js')
+const { exists } = require('../models/like-comment-post.model')
 const SECRET = 'Hacker007'
 const ENC_SECRET = 'Pakistan-1947-2025'
 
@@ -67,3 +68,4 @@ exports.login = async (req, res) => {
     res.status(400).send({ message: "Error in Login", error: err.message });
   }
 };
+

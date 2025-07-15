@@ -24,4 +24,44 @@ export class PostService {
     return this.http.delete(`${this.Url}${this.Port}/post/delete/${payload}`)
   }
 
+  //SAVE POST FEATURE=====
+
+  savePost(postId : any, userId : any){
+    const payload = { postId, userId }
+    return this.http.post(`${this.Url}${this.Port}/post/save`, payload)
+  }
+
+  getAllSave(userId : any){
+    return this.http.get(`${this.Url}${this.Port}/post/getAllSave/${userId}`)
+  }
+
+  // unsavePost(postId : any, userId : any){
+  //   const payload = { postId, userId }
+  //   return this.http.delete(`${this.Url}${this.Port}/post/save`, payload)
+  // }
+
+
+  //===== LIKE COMMENT FEATURE=====
+
+
+  likePost(postId : any, userId : any){
+    const payload = {postId, userId}
+
+    return this.http.post(`${this.Url}${this.Port}/post/like`, payload)
+  }
+
+  // unlikePost(postId : any, userId : any){
+  //   const payload = {postId, userId}
+
+  //   return this.http.delete(`${this.Url}${this.Port}/post/like`, payload)
+  // }
+
+  comment(postId : any, userId : any){
+    const payload = {postId, userId}
+
+    return this.http.post(`${this.Url}${this.Port}/post/comment`, payload)
+  }
+
+
+
 }
