@@ -18,7 +18,7 @@
       <span>Live video</span>
     </button>
 
-    <button class="action-option">
+    <button class="action-option" (click)="openCreate()">
       <i class="fa-solid fa-image" style="color: #45bd62;"></i>
       <span>Photo/video</span>
     </button>
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Three-dot menu (Edit/Delete) -->
-      <div class="post-actions" *ngIf="IsActions">
+      <div class="post-actions" *ngIf="post.userID===tokenID">
         <button class="dots-btn" (click)="showMenu=!showMenu">
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
@@ -102,16 +102,16 @@
       >&#10095;</button>
     </div>
 
-    <!-- Like / Comment / Share Buttons -->
+    <!-- Like / Comment / Save Buttons -->
     <div class="post-footer">
-      <button class="action-btn">
+      <button class="action-btn" (click)="likePost(post._id)">
         <i class="fa-regular fa-thumbs-up"></i> Like
       </button>
       <button class="action-btn">
         <i class="fa-regular fa-comment"></i> Comment
       </button>
-      <button class="action-btn">
-        <i class="fa-solid fa-share"></i> Share
+      <button class="action-btn" (click)="savePost(post._id)">
+        <i class="fa-solid fa-download" [ngClass]="isPostSaved(post._id) ? 'saved' : 'notSaved'"></i> Save
       </button>
     </div>
 

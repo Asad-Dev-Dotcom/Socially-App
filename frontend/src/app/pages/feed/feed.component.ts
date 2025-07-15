@@ -20,6 +20,12 @@ export class FeedComponent implements OnInit {
   authorName : string = ''
   IsActions : boolean = false
   showMenu : boolean = false;
+  token = localStorage.getItem('token')
+  decipherData = this.authservice.decodeToken(this.token || '')
+  tokenID = this.decipherData.id
+  postLiked : boolean = false
+  postSaved : boolean = false
+  savedPostsList : any[] = []
   
 
   constructor( private service : PostService, private authservice : AuthService,
@@ -28,34 +34,23 @@ export class FeedComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData()
+    this.getSavedPosts()
+
 
   }
 
-  // showmenu(id : any){
-  //   const token = localStorage.getItem('token')
-  //   const decipherData = this.authservice.decodeToken(token || '')
-  //   const tokenID = decipherData.id
-
-  //   if(id===tokenID){
-  //     return true;
-  //   }
-  //   return false
-  // }
-
 
   getData(){
-    const token = localStorage.getItem('token')
-    const decipherData = this.authservice.decodeToken(token || '')
-    const tokenID = decipherData.id
     this.service.display().subscribe((data)=>{
       this.dataList = data
-      console.log('data on feed==', data)
-      this.dataList.find((el : any)=> {
-        if(el.userID===tokenID){
-          this.IsActions = true
-          this.authorName = el.author
-          return;
-        }})
+      });
+  }
+
+
+  getSavedPosts(){
+    this.service.getAllSave(this.tokenID).subscribe((res : any)=>{
+      this.savedPostsList = res
+      console.log('saved posts list====', res)
     })
   }
 
@@ -138,21 +133,34 @@ editPost(post : any){
 
       editdialogRef.afterClosed().subscribe((result)=>{
 
-      //   if(result){
-      //             this.service.update(result).subscribe({
-      //   next: (res: any) => {
-      //     this.snackBar.open(res.message, 'close', { duration : 3000 })
-      //     this.getData();
-      //   },
-      //   error: (err) => this.snackBar.open(err.message, 'close', { duration : 3000 }),
-      // });
-      //   }
-
 
       })
       }
     })
   }
+
+
+
+
+  likePost(postId : any){
+
+  }
+
+  savePost(postId : any){
+    this.service.savePost(postId, this.tokenID).subscribe({
+      next : (res) => {
+        this.snackBar.open('Post Liked!', 'Close', { duration : 3000 })
+        this.postSaved = true
+      },
+      error : (err) => {
+        this.snackBar.open('Post Like Failed!', 'Close', { duration : 3000 })
+      }
+    })
+  }
+
+  isPostSaved(postId: string): boolean {
+  return this.savedPostsList.find((el : any) => el._id === postId);
+}
 
 
 
