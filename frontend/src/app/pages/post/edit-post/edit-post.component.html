@@ -1,5 +1,4 @@
-
-<h2 style="text-align: center; margin-top: 10px;">Create Post</h2>
+<h2 style="text-align: center; margin-top: 10px;">Edit Post</h2>
 
 <hr>
 
@@ -14,15 +13,15 @@
   <!-- Header -->
   <div class="post-header">
     <img
-      *ngIf="user.photo"
-      [src]="user.photo"
+      *ngIf="photo"
+      [src]="photo"
       class="user-avatar"
       alt="User Avatar"
     />
-    <div *ngIf="!user.photo" class="default-avatar">
+    <div *ngIf="!photo" class="default-avatar">
       <i class="fas fa-user-circle"></i>
     </div>
-    <span class="user-name">{{ user.name }}</span>
+    <span class="user-name">{{ user }}</span>
   </div>
 
   <!-- Scrollable section -->

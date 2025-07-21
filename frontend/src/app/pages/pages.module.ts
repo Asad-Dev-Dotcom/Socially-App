@@ -9,14 +9,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from '../app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EditPostComponent } from './post/edit-post/edit-post.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [FeedComponent, PostComponent, ProfileComponent, PageNotFoundComponent],
+  declarations: [FeedComponent, PostComponent, ProfileComponent, PageNotFoundComponent, EditPostComponent],
   imports: [
     CommonModule, SharedModule, FormsModule, HttpClientModule, MatSnackBarModule,
-    AppRoutingModule
+    AppRoutingModule, ReactiveFormsModule
   ]
 })
 export class PagesModule { }

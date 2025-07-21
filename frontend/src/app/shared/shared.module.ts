@@ -11,12 +11,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { CommentPostComponent } from './dialogs/comment-post/comment-post.component';
+import { EditCommentDialogComponent } from './dialogs/edit-comment-dialog/edit-comment-dialog.component';
 
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, ConfirmDialogComponent],
+  declarations: [HeaderComponent, ConfirmDialogComponent, CommentPostComponent, EditCommentDialogComponent],
   imports: [
     CommonModule, AppRoutingModule, MatButtonModule, MatInputModule, MatOptionModule, MatSelectModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatDialogModule
   ],

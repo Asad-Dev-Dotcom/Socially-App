@@ -1,7 +1,7 @@
 const User = require('../models/auth.model')
 const jwt = require('jsonwebtoken')
 const CryptoJS = require('crypto-js')
-const { exists } = require('../models/like-comment-post.model')
+const { exists } = require('../models/likePost.model')
 const SECRET = 'Hacker007'
 const ENC_SECRET = 'Pakistan-1947-2025'
 

@@ -75,3 +75,47 @@ exports.delete = async (req, res) => {
     res.status(400).send({ message : 'Error in deleting Post!' })
   }
 }
+
+
+
+exports.update = async (req, res) => {
+  try{
+    const auth = req.user
+    const decrypted = decryptToken(auth.data)
+    const exits = await User.findById(decrypted.id)
+    if(!exits) return res.status(400).json({ message : 'User not Found!' })
+
+    const { postId, text, author } = req.body
+
+    const files = req.files || []
+
+    let existingMedia = []
+
+    if(req.body.existingMedia){
+      existingMedia = JSON.parse(req.body.existingMedia)
+    }
+
+        const newFiles = (req.files?.newMedia || []).map(file => ({
+      filename: file.filename,
+      path: file.path,
+      mimetype: file.mimetype
+    }));
+
+    const finalMedia = [...existingMedia, ...newFiles];
+
+
+    await Post.findByIdAndUpdate(postId, {
+      text,
+      author,
+      media: finalMedia,
+      updatedAt: new Date()
+    });
+
+    res.status(200).send({ message : 'Post Updated Successfully!' })
+  }
+  catch(err) {
+    console.error('Post update error:', err);
+    res.status(500).json({ error: 'Failed to update post' });
+  }
+
+}

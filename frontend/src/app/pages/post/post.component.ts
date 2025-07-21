@@ -48,6 +48,11 @@ export class PostComponent implements OnInit {
   }
 
   submitPost() {
+    if(this.postText.length==0 && this.selectedFiles.length==0){
+      this.snackBar.open('Enter Post Text or Media', 'Close', { duration: 3000 })
+      return;
+    }
+
    const formData = new FormData();
 
   formData.append('text', this.postText);
@@ -61,17 +66,6 @@ export class PostComponent implements OnInit {
 
   this.dialogRef.close(formData)
 
-
-    // this.service.create(formData).subscribe({
-    //   next : (res) => {
-    //     this.snackBar.open('Post Uploaded', 'Close', { duration : 3000 } )
-    //     this.router.navigate(['/feed'])
-    //   },
-    //   error : (err) => {
-    //     this.snackBar.open('Post Upload Failled', 'Close', { duration : 3000 } )
-    //   }
-
-    // })
     
     this.postText = '';
     this.selectedFiles = [];
