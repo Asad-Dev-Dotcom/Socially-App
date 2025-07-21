@@ -1,119 +1,171 @@
 <app-header></app-header>
 
-
 <!-- Create Post Box -->
-<div class="create-post-box">
-  <div class="create-post-top">
-    <div>
-      <i class="fa-solid fa-circle-user" style="margin-right: 12px; font-size: 35px"></i>
+<div style="background-color: #f2f4f7">
+  <div class="create-post-box">
+    <div class="create-post-top">
+      <div>
+        <i
+          class="fa-solid fa-circle-user"
+          style="margin-right: 12px; font-size: 35px"
+        ></i>
+      </div>
+      <button (click)="openCreate()" class="post-input">
+        What's on your mind, {{ authorName }}?
+      </button>
     </div>
-    <button (click)="openCreate()" class="post-input">What's on your mind, {{authorName}}?</button>
+
+    <hr class="divider" />
+
+    <div class="create-post-actions">
+      <button class="action-option">
+        <i class="fa-solid fa-video" style="color: #f3425f"></i>
+        <span>Live video</span>
+      </button>
+
+      <button class="action-option" (click)="openCreate()">
+        <i class="fa-solid fa-image" style="color: #45bd62"></i>
+        <span>Photo/video</span>
+      </button>
+
+      <button class="action-option">
+        <i class="fa-solid fa-face-smile" style="color: #f7b928"></i>
+        <span>Feeling/activity</span>
+      </button>
+    </div>
   </div>
 
-  <hr class="divider">
+  <div class="feed-container">
+    <div *ngFor="let post of dataList" class="post-card">
+      <!-- Post Header -->
+      <div class="post-header">
+        <img
+          *ngIf="post.authorPhoto"
+          class="avatar"
+          [src]="post.authorPhoto || 'assets/default-user.png'"
+          alt="Author"
+        />
+        <div *ngIf="!post.authorPhoto">
+          <i
+            class="fa-solid fa-circle-user"
+            style="margin-right: 12px; font-size: 35px"
+          ></i>
+        </div>
+        <div class="author-info">
+          <h4>{{ post.author }}</h4>
+          <p class="post-date">{{ post.createdAt | date : "short" }}</p>
+        </div>
 
-  <div class="create-post-actions">
-    <button class="action-option">
-      <i class="fa-solid fa-video" style="color: #f3425f;"></i>
-      <span>Live video</span>
-    </button>
-
-    <button class="action-option" (click)="openCreate()">
-      <i class="fa-solid fa-image" style="color: #45bd62;"></i>
-      <span>Photo/video</span>
-    </button>
-
-    <button class="action-option">
-      <i class="fa-solid fa-face-smile" style="color: #f7b928;"></i>
-      <span>Feeling/activity</span>
-    </button>
-  </div>
-</div>
-
-
-<div class="feed-container">
-  <div *ngFor="let post of dataList" class="post-card">
-
-    <!-- Post Header -->
-    <div class="post-header">
-      <img *ngIf="post.authorPhoto"
-        class="avatar"
-        [src]="post.authorPhoto || 'assets/default-user.png'"
-        alt="Author"
-      />
-      <div *ngIf="!post.authorPhoto">
-        <i class="fa-solid fa-circle-user" style="margin-right: 12px; font-size: 35px"></i>
-      </div>
-      <div class="author-info">
-        <h4>{{ post.author }}</h4>
-        <p class="post-date">{{ post.createdAt | date:'short' }}</p>
-      </div>
-
-      <!-- Three-dot menu (Edit/Delete) -->
-      <div class="post-actions" *ngIf="post.userID===tokenID">
-        <button class="dots-btn" (click)="showMenu=!showMenu">
-          <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button>
-        <div class="dropdown-menu" *ngIf="showMenu">
-          <button class="dropdown-item" (click)="editPost(post)">
-            <i class="fa-solid fa-pen-to-square"></i> Edit
+        <!-- Three-dot menu (Edit/Delete) -->
+        <div class="post-actions" *ngIf="post.userID === tokenID">
+          <button
+            class="dots-btn"
+            (click)="showMenu[post._id] = !showMenu[post._id]"
+          >
+            <i class="fa-solid fa-ellipsis"></i>
           </button>
-          <button class="dropdown-item" (click)="deletePost(post._id)">
-            <i class="fa-solid fa-trash"></i> Delete
-          </button>
+          <div class="dropdown-menu" *ngIf="showMenu[post._id]">
+            <button class="dropdown-item" (click)="editPost(post)">
+              <i class="fa-solid fa-pen-to-square"></i> Edit
+            </button>
+            <button class="dropdown-item" (click)="deletePost(post._id)">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Post Content -->
-    <div class="post-text">
-      {{ post.text }}
-    </div>
-
-    <!-- Post Media Carousel -->
-    <div class="post-carousel" *ngIf="post.media?.length">
-      <button
-        class="carousel-arrow left"
-        *ngIf="post.media.length > 1"
-        (click)="prevMediaInPost(post)"
-      >&#10094;</button>
-
-      <div class="carousel-media" (click)="openModal(post.media, post.carouselIndex || 0)">
-        <ng-container *ngIf="post.media[post.carouselIndex || 0]?.mimetype.startsWith('image/')">
-          <img
-            [src]="'http://localhost:3000/' + post.media[post.carouselIndex || 0].path"
-            class="media-img"
-            alt="Image"
-          />
-        </ng-container>
-        <ng-container *ngIf="post.media[post.carouselIndex || 0]?.mimetype.startsWith('video/')">
-          <video
-            [src]="'http://localhost:3000/' + post.media[post.carouselIndex || 0].path"
-            class="media-video"
-            controls
-          ></video>
-        </ng-container>
+      <!-- Post Content -->
+      <div class="post-text">
+        {{ post.text }}
       </div>
 
-      <button
-        class="carousel-arrow right"
-        *ngIf="post.media.length > 1"
-        (click)="nextMediaInPost(post)"
-      >&#10095;</button>
-    </div>
+      <!-- Post Media Carousel -->
+      <div class="post-carousel" *ngIf="post.media?.length">
+        <button
+          class="carousel-arrow left"
+          *ngIf="post.media.length > 1"
+          (click)="prevMediaInPost(post)"
+        >
+          &#10094;
+        </button>
 
-    <!-- Like / Comment / Save Buttons -->
-    <div class="post-footer">
-      <button class="action-btn" (click)="likePost(post._id)">
-        <i class="fa-regular fa-thumbs-up"></i> Like
-      </button>
-      <button class="action-btn">
-        <i class="fa-regular fa-comment"></i> Comment
-      </button>
-      <button class="action-btn" (click)="savePost(post._id)">
-        <i class="fa-solid fa-download" [ngClass]="isPostSaved(post._id) ? 'saved' : 'notSaved'"></i> Save
-      </button>
-    </div>
+        <div
+          class="carousel-media"
+          (click)="openModal(post.media, post.carouselIndex || 0)"
+        >
+          <ng-container
+            *ngIf="
+              post.media[post.carouselIndex || 0]?.mimetype.startsWith('image/')
+            "
+          >
+            <img
+              [src]="
+                'http://localhost:3000/' +
+                post.media[post.carouselIndex || 0].path
+              "
+              class="media-img"
+              alt="Image"
+            />
+          </ng-container>
+          <ng-container
+            *ngIf="
+              post.media[post.carouselIndex || 0]?.mimetype.startsWith('video/')
+            "
+          >
+            <video
+              [src]="
+                'http://localhost:3000/' +
+                post.media[post.carouselIndex || 0].path
+              "
+              class="media-video"
+              controls
+            ></video>
+          </ng-container>
+        </div>
 
+        <button
+          class="carousel-arrow right"
+          *ngIf="post.media.length > 1"
+          (click)="nextMediaInPost(post)"
+        >
+          &#10095;
+        </button>
+      </div>
+
+      <div class="likes-count" *ngIf="checkPostForTotalLikes(post._id)">
+        <i class="fa-solid fa-thumbs-up" style="color: #0566ff"></i>
+        {{ checkPostForTotalLikes(post._id) }} Likes
+      </div>
+
+      <!-- Like / Comment / Save Buttons -->
+      <div class="post-footer">
+        <button
+          class="action-btn"
+          (click)="likePost(post._id)"
+          [ngClass]="checkPostLikeForColor(post._id) ? 'likedPost' : ''"
+        >
+          <i
+            class="fa-regular fa-thumbs-up"
+            *ngIf="!checkPostLikeForColor(post._id)"
+          ></i>
+          <i
+            class="fa-solid fa-thumbs-up"
+            *ngIf="checkPostLikeForColor(post._id)"
+          ></i>
+          Like
+        </button>
+        <button class="action-btn" (click)="showCommentModal(post)">
+          <i class="fa-regular fa-comment"></i> Comment
+        </button>
+        <button class="action-btn" (click)="savePost(post._id)">
+          <i
+            class="fa-solid fa-download"
+            [ngClass]="isPostSaved(post._id) ? 'saved' : 'notSaved'"
+          ></i>
+          Save
+        </button>
+      </div>
+    </div>
   </div>
 </div>

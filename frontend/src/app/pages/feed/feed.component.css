@@ -1,3 +1,4 @@
+
 .create-post-box {
       background: #fff;
     border-radius: 12px;
@@ -9,6 +10,7 @@
     margin-right: auto;
     font-size: 16px;
     font-weight: 600;
+    padding-top: 15px;
 }
 
 .create-post-top {
@@ -268,6 +270,16 @@
   font-size: 18px;
   color: #333;
   cursor: pointer;
+  border: solid 0;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.dots-btn:hover{
+  background-color: #f0f2f5;
+
+
 }
 
 .dropdown-menu {
@@ -333,4 +345,18 @@
 .saved {
   color: #1877f2;
   font-weight: bold;
+}
+
+
+.likedPost{
+  color: #0566ff;
+  font-weight: 600;
+}
+
+.likes-count {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 8px 0;
+  color: #555;
+  margin-left: 9px;
 }

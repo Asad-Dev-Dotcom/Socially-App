@@ -1,0 +1,118 @@
+<div class="feed-container">
+  <div class="post-card">
+    
+    <!-- Post Header (Static) -->
+    <div class="post-header static-section">
+      <img
+        *ngIf="post.authorPhoto"
+        class="avatar"
+        [src]="post.authorPhoto || 'assets/default-user.png'"
+        alt="Author"
+      />
+      <div *ngIf="!post.authorPhoto">
+        <i class="fa-solid fa-circle-user" style="margin-right: 12px; font-size: 35px"></i>
+      </div>
+      <div class="author-info">
+        <h4>{{ post.author }}</h4>
+        <p class="post-date">{{ post.createdAt | date: 'short' }}</p>
+      </div>
+      <a class="cancel-btn" (click)="dialogRef.close()">X</a>
+    </div>
+
+    <!-- Scrollable Post Content -->
+    <div class="scrollable-section">
+      <!-- Post Text -->
+      <div class="post-text">{{ post.text }}</div>
+
+      <!-- Media Carousel -->
+      <div class="post-carousel" *ngIf="post.media?.length">
+        <button class="carousel-arrow left" *ngIf="post.media.length > 1" (click)="prevMediaInPost(post)">&#10094;</button>
+        <div class="carousel-media" (click)="openModal(post.media, post.carouselIndex || 0)">
+          <ng-container *ngIf="post.media[post.carouselIndex || 0]?.mimetype.startsWith('image/')">
+            <img [src]="'http://localhost:3000/' + post.media[post.carouselIndex || 0].path" class="media-img" alt="Image" />
+          </ng-container>
+          <ng-container *ngIf="post.media[post.carouselIndex || 0]?.mimetype.startsWith('video/')">
+            <video [src]="'http://localhost:3000/' + post.media[post.carouselIndex || 0].path" class="media-video" controls></video>
+          </ng-container>
+        </div>
+        <button class="carousel-arrow right" *ngIf="post.media.length > 1" (click)="nextMediaInPost(post)">&#10095;</button>
+      </div>
+
+      <!-- Likes -->
+       <div style="display: flex;align-items: center;justify-content: space-between;">
+        <div class="likes-count" *ngIf="checkPostForTotalLikes(post._id)">
+        <i class="fa-solid fa-thumbs-up" style="color: #0566ff"></i>
+        {{ checkPostForTotalLikes(post._id) }} Likes
+      </div>
+
+      <div class="comments-count" *ngIf="commentsCount>0">
+        {{commentsCount}} Comments
+      </div>
+       </div>
+      
+
+      <!-- Buttons (Like, Comment, Save) -->
+      <div class="post-footer">
+        <button class="action-btn" (click)="likePost(post._id)" [ngClass]="checkPostLikeForColor(post._id) ? 'likedPost' : ''">
+          <i class="fa-regular fa-thumbs-up" *ngIf="!checkPostLikeForColor(post._id)"></i>
+          <i class="fa-solid fa-thumbs-up" *ngIf="checkPostLikeForColor(post._id)"></i> Like
+        </button>
+        <button class="action-btn">
+          <i class="fa-regular fa-comment"></i> Comment
+        </button>
+        <button class="action-btn" (click)="savePost(post._id)">
+          <i class="fa-solid fa-download" [ngClass]="isPostSaved(post._id) ? 'saved' : 'notSaved'"></i> Save
+        </button>
+      </div>
+
+      <!-- Comments List (Scrollable Area) -->
+      <div class="comments-section">
+        <div *ngFor="let comment of commentsList" class="comment-box">
+  <div class="comment-icon">
+    <i class="fa-solid fa-circle-user"></i>
+  </div>
+  <div class="comment-content">
+    <div class="comment-name">{{ comment.name }}</div>
+    <div class="comment-text">{{ comment.text }}</div>
+    <div class="drop-comment" *ngIf="comment.userId == tokenID">
+          <button
+            class="dots-btn-comment"
+            (click)="showCommentMenu[comment.commentId] = !showCommentMenu[comment.commentId]"
+          >
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+          <div class="dropdown-menu-comment" *ngIf="showCommentMenu[comment.commentId]">
+            <button class="dropdown-item-comment" (click)="editComment(comment)">
+              <i class="fa-solid fa-pen-to-square"></i> Edit
+            </button>
+            <button class="dropdown-item-comment" (click)="deleteComment(comment.commentId)">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+  </div>
+</div>
+
+        <div *ngIf="commentsList.length === 0" style="color: red; font-size: 18px;">
+          No Comments Yet!
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Comment Input (Static) -->
+    <div class="add-comment static-section">
+      <div *ngIf="!post.authorPhoto">
+        <i class="fa-solid fa-circle-user" style="margin-right: 12px; font-size: 35px"></i>
+      </div>
+      <input
+        [(ngModel)]="newComment"
+        type="text"
+          [placeholder]="'Write a comment as ' + logInUser"
+        class="comment-input"
+      />
+      <button (click)="submitComment(post._id)" class="send-btn">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
