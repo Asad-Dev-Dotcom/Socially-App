@@ -61,7 +61,7 @@ The project demonstrates **real-time communication**, **secure authentication**,
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/<your-username>/socially.git
+git clone https://github.com/Asad-Dev-Dotcom/socially.git
 cd socially
 ````
 
@@ -107,5 +107,3 @@ ng serve
 
 Developed by **\[Asad Noor]**
 
-Do you want me to do that next?
-```
